@@ -1,0 +1,12 @@
+<%= form_for @role, url: update_permissions_role_path(@role), method: :patch do |f| %>
+  <h3>Permisos para el rol: <%= @role.name %></h3>
+
+  <% Permission.all.each do |permission| %>
+    <div class="form-check">
+      <%= check_box_tag "role[permission_ids][]", permission.id, @role.permissions.include?(permission), class: "form-check-input" %>
+      <%= label_tag "role_permission_#{permission.id}", permission.name, class: "form-check-label" %>
+    </div>
+  <% end %>
+
+  <%= f.submit "Actualizar permisos", class: "btn btn-primary mt-3" %>
+<% end %>

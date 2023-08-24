@@ -1,0 +1,12 @@
+<%= form_for @user, url: update_roles_user_path(@user), method: :patch do |f| %>
+  <h3>Roles para <%= @user.email %></h3>
+
+  <% Role.all.each do |role| %>
+    <div class="form-check">
+      <%= check_box_tag "user[role_ids][]", role.id, @user.roles.include?(role), class: "form-check-input" %>
+      <%= label_tag "user_role_#{role.id}", role.name, class: "form-check-label" %>
+    </div>
+  <% end %>
+
+  <%= f.submit "Actualizar roles", class: "btn btn-primary mt-3" %>
+<% end %>
