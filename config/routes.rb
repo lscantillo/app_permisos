@@ -7,7 +7,7 @@ Rails.application.routes.draw do
       patch 'update_permissions'
     end
   end
-  devise_for :users
+  devise_for :users, controllers: { registrations: 'registrations/registrations' }
   root 'home#index'
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
