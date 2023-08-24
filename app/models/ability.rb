@@ -5,12 +5,11 @@ class Ability
 
   def initialize(user)
     user ||= User.new
-
     user.roles.each do |role|
       role.permissions.each do |permission|
         # Suponiendo que los nombres de permisos están en formato 'action_model', por ejemplo, 'read_post'
         action, subject = permission.name.split('_')
-        can action.to_sym, subject.singularize.camelize.constantize
+        can action.to_sym, permission.model.singularize.camelize.constantize
       end
     end
     # Define abilities for the user here. For example:

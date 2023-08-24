@@ -1,12 +1,21 @@
 <%= form_for @role, url: update_permissions_role_path(@role), method: :patch do |f| %>
-  <h3>Permisos para el rol: <%= @role.name %></h3>
+  <h3 class="font-bold">Permisos para el rol: <%= @role.name %></h3>
 
-  <% Permission.all.each do |permission| %>
-    <div class="form-check">
-      <%= check_box_tag "role[permission_ids][]", permission.id, @role.permissions.include?(permission), class: "form-check-input" %>
-      <%= label_tag "role_permission_#{permission.id}", permission.name, class: "form-check-label" %>
-    </div>
+  <% permissions_grouped_by_model = Permission.all.order(:model).group_by(&:model) %>
+
+  <% permissions_grouped_by_model.each do |model, permissions| %>
+    <h4 class="mt-2 font-bold" ><%= model %></h4>
+
+    <% permissions.each do |permission| %>
+      <div class="form-check">
+        <%= check_box_tag "role[permission_ids][]", permission.id, @role.permissions.include?(permission), class: "form-check-input" %>
+        <%= label_tag "role_permission_#{permission.id}", permission.name, class: "form-check-label" %>
+      </div>
+    <% end %>
   <% end %>
 
-  <%= f.submit "Actualizar permisos", class: "btn btn-primary mt-3" %>
+  <%= f.submit "Actualizar permisos", class: "rounded-lg py-3 px-5 bg-blue-600 text-white block font-medium mt-10" %>
+  <%= link_to 'Volver', roles_path, class: "rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium" %>
 <% end %>
+
+</div>

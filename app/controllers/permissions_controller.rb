@@ -3,7 +3,7 @@ class PermissionsController < ApplicationController
 
   # GET /permissions or /permissions.json
   def index
-    @permissions = Permission.all
+    @permissions = Permission.all.order(:model)
   end
 
   # GET /permissions/1 or /permissions/1.json
@@ -13,10 +13,12 @@ class PermissionsController < ApplicationController
   # GET /permissions/new
   def new
     @permission = Permission.new
+    @available_models = ActiveRecord::Base.connection.tables.map(&:classify).reject { |m| m == "SchemaMigration" }
   end
 
   # GET /permissions/1/edit
   def edit
+    @available_models = ActiveRecord::Base.connection.tables.map(&:classify).reject { |m| m == "SchemaMigration" }
   end
 
   # POST /permissions or /permissions.json
@@ -65,6 +67,6 @@ class PermissionsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def permission_params
-      params.require(:permission).permit(:name)
+      params.require(:permission).permit(:name, :model)
     end
 end

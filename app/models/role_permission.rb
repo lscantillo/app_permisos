@@ -1,4 +1,4 @@
 class RolePermission < ApplicationRecord
-  belongs_to :role
-  belongs_to :permission
+  belongs_to :role, dependent: :destroy
+  belongs_to :permission, dependent: :destroy
 end
